@@ -20,7 +20,7 @@ exports.handler = async function (context, event, callback) {
     };
 
     //if the message contains the word mail
-    if (incomingMessage.includes("mail") || incomingMessage.includes("email") || incomingMessage.includes("yes")) {
+    if (incomingMessage.includes("mail") || incomingMessage.includes("email") || incomingMessage.includes("unseen")) {
         const result = await imaps.connect(config).then(function (connection) {
             console.log("connected");
 

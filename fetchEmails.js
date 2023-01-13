@@ -30,12 +30,10 @@ exports.handler = async function (context, event, callback) {
                 //different search criteria with different keywords
                 var searchCriteria;
                 if (incomingMessage.includes("unseen")) {
-                    searchCriteria = [
-                        'UNSEEN'
-                    ];
+                    searchCriteria = ['UNSEEN', ['ON', new Date()]];
                 } else {
                     searchCriteria = [
-                        '1:5'
+                        '1:8'
                     ];
                 }
 
@@ -45,7 +43,8 @@ exports.handler = async function (context, event, callback) {
                     markSeen: false
                 };
 
-                return connection.search(searchCriteria, fetchOptions).then(function (results) {
+                return connection.search(searchCriteria, fetchOptions)
+                    .then(function (results) {
                     var subjects = results.map(function (res) {
                         return res.parts.filter(function (part) {
                             return part.which === 'HEADER';
@@ -59,7 +58,7 @@ exports.handler = async function (context, event, callback) {
                     });
 
                     //console.log(subjects);
-                    for (let i = 0; i < subjects.length && i < 5; i++) {
+                    for (let i = 0; i < subjects.length && i < 8; i++) {
                         let currmail = `Sender: ${senders[i]} \n \n Subject: ${subjects[i]}`;
                         //console.log(currmail);
                         twiml.message(currmail);
